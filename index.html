@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Abu Bakkar | AI & Robotics Innovator</title>
+    <meta name="description" content="Portfolio of Abu Bakkar - AI Developer, Robotics Engineer, and Drone Specialist. Explore projects in deep learning, IoT, embedded systems, and 3D fabrication.">
+    <meta name="keywords" content="Abu Bakkar, AI Developer, Robotics Engineer, Drone Engineer, IoT, Python, Computer Vision, Deep Learning, 3D Printing, Portfolio">
+    <meta name="author" content="Abu Bakkar">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook (Makes shared links look good) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Abu Bakkar | AI & Robotics Innovator">
+    <meta property="og:description" content="Building intelligent robots, custom drones, and AI-powered solutions.">
+    <meta property="og:image" content="Abu_Bakkar.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Abu Bakkar | AI & Robotics Innovator">
+    <meta property="twitter:description" content="Building intelligent robots, custom drones, and AI-powered solutions.">
+    <meta property="twitter:image" content="Abu_Bakkar.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        cyan: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            900: '#164e63',
+                        },
+                        violet: {
+                            500: '#8b5cf6',
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #06b6d4, #8b5cf6);
+            border-radius: 4px;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: #22d3ee;
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+            transform: translateY(-5px);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #22d3ee, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.3;
+        }
+
+        /* Canvas Background */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Background Canvas for Neural Network Animation -->
+    <div id="canvas-container">
+        <canvas id="neural-canvas"></canvas>
+    </div>
+
+    <!-- Retro CRT Scanline Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 top-0 transition-all duration-300" id="navbar">
+        <div class="glass-panel mx-auto px-6 py-4">
+            <div class="flex justify-between items-center max-w-7xl mx-auto">
+                <a href="#" class="text-2xl font-bold font-mono tracking-tighter hover:text-cyan-400 transition-colors">
+                    &lt;ABU /&gt;
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 font-mono text-sm">
+                    <a href="#home" class="hover:text-cyan-400 transition-colors">01. HOME</a>
+                    <a href="#about" class="hover:text-cyan-400 transition-colors">02. ABOUT</a>
+                    <a href="#skills" class="hover:text-cyan-400 transition-colors">03. SKILLS</a>
+                    <a href="#projects" class="hover:text-cyan-400 transition-colors">04. PROJECTS</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-cyan-400 text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden glass-panel md:hidden absolute w-full left-0 top-full">
+            <div class="flex flex-col p-4 space-y-4 font-mono text-center">
+                <a href="#home" class="block hover:text-cyan-400">01. HOME</a>
+                <a href="#about" class="block hover:text-cyan-400">02. ABOUT</a>
+                <a href="#skills" class="block hover:text-cyan-400">03. SKILLS</a>
+                <a href="#projects" class="block hover:text-cyan-400">04. PROJECTS</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1 reveal active">
+                <div class="inline-block px-3 py-1 mb-4 text-xs font-mono text-cyan-400 border border-cyan-400/30 rounded-full bg-cyan-400/10">
+                    SYSTEM STATUS: ONLINE
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold mb-4 leading-tight">
+                    Hi, I'm <span class="text-gradient whitespace-nowrap">Abu Bakkar</span>
+                </h1>
+                <h2 class="text-2xl md:text-3xl text-gray-400 font-mono mb-6 h-12 flex items-center">
+                    <span id="typing-text" class="typing-cursor"></span>
+                </h2>
+                <p class="text-gray-300 text-lg mb-8 max-w-lg leading-relaxed">
+                    I bridge the gap between software and hardware. Specializing in Drone Engineering, 3D Fabrication, and Full-Stack App Development to solve real-world problems.
+                </p>
+                
+                <!-- Buttons -->
+                <div class="flex gap-4">
+                    <a href="#projects" class="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-black font-bold rounded hover:shadow-[0_0_20px_rgba(6,182,212,0.6)] transition-all duration-300">
+                        View Projects
+                    </a>
+                    <a href="#contact" class="px-8 py-3 border border-gray-600 hover:border-cyan-400 hover:text-cyan-400 rounded transition-all duration-300">
+                        Contact Me
+                    </a>
+                </div>
+
+                <!-- Scroll Down Arrow (Centered) -->
+                <div class="mt-16 animate-bounce flex justify-center">
+                    <a href="#about" class="text-gray-500 hover:text-cyan-400 transition-colors flex items-center gap-2">
+                        <i class="fas fa-chevron-down text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="order-1 md:order-2 flex justify-center animate-float reveal active delay-200">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 group">
+                    <!-- Glow Effect behind -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-violet-600 rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+                    
+                    <!-- Tech Styled Image Container -->
+                    <div class="relative z-10 w-full h-full rounded-2xl border-2 border-cyan-500/50 bg-gray-900 overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.3)]">
+                        <!-- Profile Image (Updated for SEO) -->
+                        <img src="Abu_Bakkar.png" 
+                             alt="Abu Bakkar - AI & Robotics Engineer" 
+                             class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500 hover:grayscale-0"
+                             onerror="">
+                        
+                        <!-- Overlay Tint -->
+                        <div class="absolute inset-0 bg-cyan-900/10 mix-blend-overlay"></div>
+
+                        <!-- Tech Overlays (HUD style) -->
+                        <div class="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 font-mono text-xs text-cyan-300">
+                            <span class="block text-lg font-bold">ABU</span>
+                            <span class="block text-[10px] text-gray-400 tracking-widest">ID: DEV-01 // ACTIVE</span>
+                        </div>
+                        
+                        <!-- Corner Accents -->
+                        <div class="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-cyan-400 rounded-tl-sm"></div>
+                        <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400 rounded-tr-sm"></div>
+                        <div class="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-cyan-400 rounded-br-sm"></div>
+                        <div class="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-cyan-400 rounded-bl-sm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Mission Section -->
+    <section id="about" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16">
+                <!-- About Me -->
+                <div class="reveal">
+                    <h2 class="text-4xl font-bold mb-8 flex items-center">
+                        <span class="text-cyan-400 font-mono text-2xl mr-4">01.</span>
+                        About Me
+                    </h2>
+                    <div class="glass-card p-8 rounded-2xl">
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            I’m a builder, innovator, and tech enthusiast who loves combining physical hardware with intelligent software.
+                        </p>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            From <span class="text-cyan-400">designing 3D-printed robotics</span> to coding <span class="text-violet-400">standalone applications</span>, I work across the full technology stack. My expertise lies in custom RC systems, drone tuning, and creating intuitive user interfaces that bridge the digital and physical worlds.
+                        </p>
+                        <p class="text-gray-300">
+                            I believe in learning by building — rapid prototyping, constant iteration, and solving complex problems with creative engineering.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mission -->
+                <div class="reveal delay-200">
+                    <h2 class="text-4xl font-bold mb-8 flex items-center">
+                        <i class="fas fa-bullseye text-cyan-400 mr-4"></i>
+                        My Mission
+                    </h2>
+                    <div class="border-l-4 border-cyan-500 pl-8 py-2">
+                        <p class="text-xl italic text-gray-200 mb-6">
+                            "To create human-centered AI and automation tools that make everyday tasks easier and more intelligent."
+                        </p>
+                        <p class="text-gray-400">
+                            My dream is to build meaningful technology that solves real problems — especially in <span class="text-violet-400 font-bold">assistive tech, accessibility, and smart systems</span>.
+                        </p>
+                    </div>
+
+                    <!-- Core Areas Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-10">
+                        <!-- AI & ML -->
+                        <div class="glass-card p-4 rounded text-center hover:bg-cyan-900/20">
+                            <i class="fas fa-brain text-2xl text-violet-400 mb-2"></i>
+                            <h3 class="font-bold">AI & ML</h3>
+                        </div>
+                        <!-- IoT -->
+                        <div class="glass-card p-4 rounded text-center hover:bg-cyan-900/20">
+                            <i class="fas fa-network-wired text-2xl text-green-400 mb-2"></i>
+                            <h3 class="font-bold">IoT</h3>
+                        </div>
+                        <!-- Embedded -->
+                        <div class="glass-card p-4 rounded text-center hover:bg-cyan-900/20">
+                            <i class="fas fa-microchip text-2xl text-orange-400 mb-2"></i>
+                            <h3 class="font-bold">Embedded</h3>
+                        </div>
+                        
+                        <!-- Previous Cards -->
+                        <div class="glass-card p-4 rounded text-center hover:bg-cyan-900/20">
+                            <i class="fas fa-paper-plane text-2xl text-cyan-400 mb-2"></i>
+                            <h3 class="font-bold">Drones & RC</h3>
+                        </div>
+                        <div class="glass-card p-4 rounded text-center hover:bg-cyan-900/20">
+                            <i class="fas fa-cubes text-2xl text-pink-400 mb-2"></i>
+                            <h3 class="font-bold">3D Design</h3>
+                        </div>
+                        <div class="glass-card p-4 rounded text-center hover:bg-cyan-900/20">
+                            <i class="fas fa-laptop-code text-2xl text-yellow-400 mb-2"></i>
+                            <h3 class="font-bold">App Dev</h3>
+                        </div>
+                         <div class="glass-card p-4 rounded text-center hover:bg-cyan-900/20 col-span-2 md:col-span-1">
+                            <i class="fas fa-robot text-2xl text-red-400 mb-2"></i>
+                            <h3 class="font-bold">Robotics</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-black/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-12 flex items-center reveal">
+                <span class="text-cyan-400 font-mono text-2xl mr-4">02.</span>
+                Technical Arsenal
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Hardware & Aerial -->
+                <div class="glass-card p-6 rounded-xl reveal">
+                    <h3 class="text-xl font-bold mb-6 text-cyan-400 border-b border-gray-700 pb-2">
+                        <i class="fas fa-helicopter mr-2"></i> Aerial & Hardware
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Drone Build & Tuning</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Custom RC Systems</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">INAV / Betaflight</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">ESP32 / Arduino</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Robotics Integration</span>
+                    </div>
+                </div>
+
+                <!-- Software & Apps -->
+                <div class="glass-card p-6 rounded-xl reveal delay-100">
+                    <h3 class="text-xl font-bold mb-6 text-violet-400 border-b border-gray-700 pb-2">
+                        <i class="fas fa-mobile-screen mr-2"></i> Software Ecosystem
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">App Development</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Web Development</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Standalone Apps</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Python & AI</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Computer Vision</span>
+                    </div>
+                </div>
+
+                <!-- Design & Prototyping -->
+                <div class="glass-card p-6 rounded-xl reveal delay-200">
+                    <h3 class="text-xl font-bold mb-6 text-emerald-400 border-b border-gray-700 pb-2">
+                        <i class="fas fa-layer-group mr-2"></i> Design & Make
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">3D Designing (CAD)</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">3D Printing</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Rapid Prototyping</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Custom Enclosures</span>
+                        <span class="px-3 py-1 bg-gray-800 text-sm font-mono rounded border border-gray-700">Hardware Debugging</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-12 flex items-center reveal">
+                <span class="text-cyan-400 font-mono text-2xl mr-4">03.</span>
+                Project Lab
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1 -->
+                <div class="glass-card rounded-xl overflow-hidden group reveal">
+                    <div class="h-48 bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-robot text-6xl text-cyan-500 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">AI Desk Bot</h3>
+                        <p class="text-gray-400 text-sm mb-4">An ESP32-C3 powered animated robot with expressive eyes and touch reactions.</p>
+                        <div class="mb-4">
+                            <ul class="text-xs text-gray-400 list-disc list-inside">
+                                <li>SH1106 OLED Display</li>
+                                <li>Emotions: Smile, Angry, Sleep</li>
+                                <li>Touch Sensing</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs font-mono text-cyan-300">
+                            <span>#ESP32</span>
+                            <span>#Arduino</span>
+                            <span>#OLED</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="glass-card rounded-xl overflow-hidden group reveal delay-100">
+                    <div class="h-48 bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center relative">
+                        <i class="fas fa-microphone-lines text-6xl text-violet-500 group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">Jarvis Robot</h3>
+                        <p class="text-gray-400 text-sm mb-4">A personal voice-assisted robot with personality-based behavior.</p>
+                        <div class="mb-4">
+                            <ul class="text-xs text-gray-400 list-disc list-inside">
+                                <li>Voice Commands</li>
+                                <li>Smart Responses</li>
+                                <li>Servo Motor Control</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs font-mono text-cyan-300">
+                            <span>#Python</span>
+                            <span>#AI_API</span>
+                            <span>#SpeechRecog</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="glass-card rounded-xl overflow-hidden group reveal delay-200">
+                    <div class="h-48 bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center relative">
+                        <i class="fas fa-id-card text-6xl text-green-500 group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">Smart Attendance</h3>
+                        <p class="text-gray-400 text-sm mb-4">Complete automation system to track student attendance for classes/buses.</p>
+                        <div class="mb-4">
+                            <ul class="text-xs text-gray-400 list-disc list-inside">
+                                <li>Face & ID Detection</li>
+                                <li>RFID Tracking</li>
+                                <li>Cloud Dashboard</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs font-mono text-cyan-300">
+                            <span>#IoT</span>
+                            <span>#RaspberryPi</span>
+                            <span>#Cloud</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: AI Forensic Lab (NEW) -->
+                <div class="glass-card rounded-xl overflow-hidden group reveal">
+                    <div class="h-48 bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-fingerprint text-6xl text-blue-500 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">AI Forensic Lab</h3>
+                        <p class="text-gray-400 text-sm mb-4">Standalone tool to detect deepfakes using "Triangulation Approach" (ViT + ResNet + Forensics).</p>
+                        <div class="mb-4">
+                            <ul class="text-xs text-gray-400 list-disc list-inside">
+                                <li>Ensemble Verification</li>
+                                <li>Texture Entropy Heatmaps</li>
+                                <li>Biometric & Physics Checks</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs font-mono text-cyan-300">
+                            <span>#Python</span>
+                            <span>#OpenCV</span>
+                            <span>#DeepLearning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: EchoClone AI (NEW) -->
+                <div class="glass-card rounded-xl overflow-hidden group reveal delay-100">
+                    <div class="h-48 bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center relative overflow-hidden">
+                        <i class="fas fa-wave-square text-6xl text-purple-500 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">EchoClone AI</h3>
+                        <p class="text-gray-400 text-sm mb-4">Private, self-hosted voice cloning assistant allowing chat with any mimicked voice.</p>
+                        <div class="mb-4">
+                            <ul class="text-xs text-gray-400 list-disc list-inside">
+                                <li>Llama 3 & Coqui XTTS</li>
+                                <li>Zero-Shot Cloning</li>
+                                <li>Local Privacy Focus</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs font-mono text-cyan-300">
+                            <span>#GenAI</span>
+                            <span>#VoiceCloning</span>
+                            <span>#NextJS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 (Existing) -->
+                <div class="glass-card rounded-xl overflow-hidden group reveal">
+                    <div class="h-48 bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center relative">
+                        <div class="absolute top-2 right-2 px-2 py-1 bg-pink-600 text-white text-[10px] font-bold rounded">UPCOMING</div>
+                        <i class="fas fa-hands-asl-interpreting text-6xl text-pink-500 group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">AI Mind Reader</h3>
+                        <p class="text-gray-400 text-sm mb-4">Assistive tech to help speech & hearing impaired individuals.</p>
+                        <div class="mb-4">
+                            <ul class="text-xs text-gray-400 list-disc list-inside">
+                                <li>Reads gestures/expressions</li>
+                                <li>Converts to voice</li>
+                                <li>Wearable design</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs font-mono text-cyan-300">
+                            <span>#Accessibility</span>
+                            <span>#AI</span>
+                            <span>#Wearable</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Project 5 (Existing) -->
+                 <div class="glass-card rounded-xl overflow-hidden group reveal delay-100">
+                    <div class="h-48 bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center relative">
+                        <i class="fas fa-server text-6xl text-orange-500 group-hover:scale-110 transition-transform duration-500"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">RPi Hosting Server</h3>
+                        <p class="text-gray-400 text-sm mb-4">Full backend server setup hosting Python scripts and AI tools.</p>
+                        <div class="mb-4">
+                            <ul class="text-xs text-gray-400 list-disc list-inside">
+                                <li>Connects with skyforix.com</li>
+                                <li>Hosts Automation Scripts</li>
+                                <li>Smart Services</li>
+                            </ul>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs font-mono text-cyan-300">
+                            <span>#Linux</span>
+                            <span>#Networking</span>
+                            <span>#Backend</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Projects (UPDATED) -->
+                <div class="glass-card rounded-xl p-6 reveal delay-200 flex flex-col justify-center border-dashed border-2 border-gray-700 hover:border-cyan-500">
+                    <h3 class="text-xl font-bold mb-4 text-white"><i class="fas fa-flask mr-2 text-yellow-400"></i>Mini Experiments</h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="hover:text-white transition-colors cursor-default">
+                            <span class="text-cyan-500">></span> Custom Drone Builds
+                        </li>
+                        <li class="hover:text-white transition-colors cursor-default">
+                            <span class="text-cyan-500">></span> 3D Printable Robotics
+                        </li>
+                        <li class="hover:text-white transition-colors cursor-default">
+                            <span class="text-cyan-500">></span> Custom RC Controllers
+                        </li>
+                        <li class="hover:text-white transition-colors cursor-default">
+                            <span class="text-cyan-500">></span> IoT Devices & Sensors
+                        </li>
+                        <li class="hover:text-white transition-colors cursor-default">
+                            <span class="text-cyan-500">></span> 3D Printing & Prototyping
+                        </li>
+                         <li class="hover:text-white transition-colors cursor-default">
+                            <span class="text-cyan-500">></span> PCB Design & Etching
+                        </li>
+                        <li class="hover:text-white transition-colors cursor-default">
+                            <span class="text-cyan-500">></span> LoRa Long-Range Comms
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <section id="contact" class="py-16 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/20 to-transparent pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto px-6 text-center reveal">
+            <h2 class="text-4xl font-bold mb-6">Let's Build The Future</h2>
+            
+            <div class="mt-16 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm font-mono">
+                <div class="mb-4 md:mb-0">
+                    &copy; 2025 Abu. All systems normal.
+                </div>
+                <div class="flex space-x-6 text-xl">
+                    <a href="https://github.com/Abubakkar23" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/abubakkar0723" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com/abubakkar2305" target="_blank" class="hover:text-cyan-400 transition-colors"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // 2. Typing Effect
+        const words = ["Drone Engineer", "3D Designer", "App Developer", "Robotics Innovator"];
+        let i = 0;
+        let timer;
+
+        function typeWriter() {
+            const heading = document.getElementById('typing-text');
+            const word = words[i];
+            let j = 0;
+            let isDeleting = false;
+
+            function loop() {
+                heading.innerHTML = word.substring(0, j);
+                
+                if (!isDeleting && j < word.length) {
+                    j++;
+                    timer = setTimeout(loop, 100);
+                } else if (!isDeleting && j === word.length) {
+                    isDeleting = true;
+                    timer = setTimeout(loop, 2000); // Pause at end
+                } else if (isDeleting && j > 0) {
+                    j--;
+                    timer = setTimeout(loop, 50);
+                } else {
+                    isDeleting = false;
+                    i = (i + 1) % words.length;
+                    typeWriter(); // Next word
+                    return;
+                }
+            }
+            loop();
+        }
+        typeWriter();
+
+        // 3. Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 4. Neural Network Particle Background
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = '#22d3ee'; // Cyan nodes
+                ctx.fill();
+            }
+
+            update() {
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.4) - 0.2;
+                let directionY = (Math.random() * 0.4) - 0.2;
+                let color = '#22d3ee';
+
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = 'rgba(6, 182, 212,' + opacityValue + ')'; // Cyan lines
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        window.addEventListener('resize', 
+            function(){
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
+                init();
+            }
+        );
+
+        init();
+        animate();
+
+    </script>
+</body>
+</html>
