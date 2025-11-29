@@ -10,6 +10,7 @@
     <meta name="keywords" content="Abu Bakkar, AI Developer, Robotics Engineer, Drone Engineer, IoT, Python, Computer Vision, Deep Learning, 3D Printing, Portfolio">
     <meta name="author" content="Abu Bakkar">
     <meta name="robots" content="index, follow">
+
      <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/000000/robot-2.png">
 
@@ -33,6 +34,25 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Abu Bakkar",
+        "url": "https://abubakkar23.github.io/portfolio/",
+        "image": "https://abubakkar23.github.io/portfolio/Abu_Bakkar.png",
+        "jobTitle": "AI & Robotics Engineer",
+        "knowsAbout": ["Robotics", "Drones", "AI", "Python", "IoT", "Deep Learning"],
+        "sameAs": [
+            "https://github.com/Abubakkar23",
+            "https://www.linkedin.com/in/abubakkar0723",
+            "https://twitter.com/abubakkar2305"
+        ]
+        }
+    </script>
+
+    <link rel="canonical" href="https://abubakkar23.github.io/portfolio/" />
 
     <script>
         tailwind.config = {
@@ -251,10 +271,16 @@
                     <!-- Tech Styled Image Container -->
                     <div class="relative z-10 w-full h-full rounded-2xl border-2 border-cyan-500/50 bg-gray-900 overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.3)]">
                         <!-- Profile Image (Updated for SEO) -->
-                        <img src="Abu_Bakkar.png" 
+                        <!-- <img src="Abu_Bakkar.png" 
                              alt="Abu Bakkar - AI & Robotics Engineer" 
                              class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500 hover:grayscale-0"
-                             onerror="">
+                             onerror=""> -->
+                        
+                        <img src="Abu_Bakkar.png" 
+                            width="320" 
+                            height="320"
+                            alt="Abu Bakkar - AI & Robotics Engineer" 
+                            class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500 hover:grayscale-0">
                         
                         <!-- Overlay Tint -->
                         <div class="absolute inset-0 bg-cyan-900/10 mix-blend-overlay"></div>
@@ -735,9 +761,15 @@
             }
         }
 
+        // FIND THIS FUNCTION IN YOUR SCRIPT AND REPLACE IT
         function init() {
             particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            // Reduced density for better performance (Changed divisor from 9000 to 15000)
+            let numberOfParticles = (canvas.height * canvas.width) / 15000;
+            
+            // Cap the maximum particles to prevent mobile lag
+            if(numberOfParticles > 100) numberOfParticles = 100; 
+
             for (let i = 0; i < numberOfParticles; i++) {
                 let size = (Math.random() * 2) + 1;
                 let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
@@ -793,5 +825,4 @@
 
     </script>
 </body>
-
 </html>
