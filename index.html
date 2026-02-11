@@ -486,7 +486,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20 pb-20 lg:pb-0">
         <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
             <div class="order-2 lg:order-1 reveal active">
                 <div
@@ -565,27 +565,21 @@
                             class="absolute top-0 left-0 w-full h-1 bg-cyan-400/50 shadow-[0_0_15px_#22d3ee] animate-[scan_4s_linear_infinite] opacity-30 pointer-events-none">
                         </div>
 
-                        <!-- ID Badge Info -->
+                        <!-- ID Badge Info (Compact) -->
                         <div
-                            class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md border border-white/10 p-5 rounded-xl">
-                            <div class="flex justify-between items-end">
+                            class="absolute bottom-0 left-0 w-full bg-black/60 backdrop-blur-md border-t border-white/10 p-4">
+                            <div class="flex justify-between items-center">
                                 <div>
                                     <div
-                                        class="text-[10px] text-cyan-400 font-mono tracking-[0.2em] mb-1 flex items-center gap-2">
+                                        class="text-[10px] text-cyan-400 font-mono tracking-widest mb-1 flex items-center gap-2">
                                         <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                                        IDENTIFICATION
+                                        ID: ABU.DEV
                                     </div>
-                                    <div class="text-white font-display font-bold text-2xl tracking-wide">ABU BAKKAR
+                                    <div class="text-white font-display font-bold text-lg leading-tight">ABU BAKKAR
                                     </div>
-                                    <div class="text-xs text-gray-300 font-mono mt-1">CLASS: DEVELOPER // LVL.05</div>
                                 </div>
-                                <div class="text-right opacity-80">
-                                    <i class="fas fa-qrcode text-4xl text-white"></i>
-                                </div>
-                            </div>
-                            <!-- Status Bar -->
-                            <div class="w-full h-1 bg-gray-800 mt-4 rounded-full overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-cyan-400 to-violet-500 w-3/4 animate-pulse">
+                                <div class="opacity-80">
+                                    <i class="fas fa-qrcode text-3xl text-white"></i>
                                 </div>
                             </div>
                         </div>
@@ -595,30 +589,29 @@
         </div>
 
         <!-- Infinite Tech Marquee -->
-        <div class="absolute bottom-0 w-full overflow-hidden py-4 bg-black/50 border-t border-white/5 backdrop-blur-sm">
-            <div class="marquee-container flex gap-16 whitespace-nowrap animate-scroll">
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">PYTHON</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">C++</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ROS2</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">OPENCV</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">TENSORFLOW</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">PYTORCH</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">RASPBERRY PI</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ESP32</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ARDUINO</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">SOLIDWORKS</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">FUSION 360</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ALTIUM</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">DOCKER</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">LINUX</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">NEXT.JS</span>
-                <!-- Duplicates for loop -->
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">PYTHON</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">C++</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ROS2</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">OPENCV</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">TENSORFLOW</span>
-                <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">PYTORCH</span>
+        <div
+            class="absolute bottom-0 w-full overflow-hidden py-4 bg-black/50 border-t border-white/5 backdrop-blur-sm z-20">
+            <div class="marquee-container flex whitespace-nowrap animate-scroll">
+                <!-- Group 1 -->
+                <div class="flex gap-12 pr-12">
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">PYTHON</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">C++</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ROS2</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">OPENCV</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">TENSORFLOW</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">PYTORCH</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">RASPBERRY PI</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ESP32</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ARDUINO</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">SOLIDWORKS</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">FUSION 360</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">ALTIUM</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">DOCKER</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">LINUX</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">NEXT.JS</span>
+                    <span class="text-gray-500 font-mono text-sm hover:text-white transition-colors">PYTHON</span>
+                </div>
+
             </div>
         </div>
     </section>
